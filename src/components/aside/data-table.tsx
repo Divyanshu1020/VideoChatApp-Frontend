@@ -1,83 +1,100 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
+import { Chat } from "./FriendList";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+import { motion } from "framer-motion";
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    state: {
-      columnFilters,
-    },
-  });
+export function DataTable({ data }: { data: Chat[] }) {
+  const [chats, setChats] = useState(data);
+  const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (searchInput.trim().length > 0) {
+        const newData = data.filter((chat) => {
+          return chat.chatName
+            .toLowerCase()
+            .includes(searchInput.toLowerCase());
+        });
+        setChats(newData);
+      } else {
+        setChats(data);
+      }
+    }, 200);
+    return () => clearTimeout(timeout);
+  }, [searchInput, data]);
 
   return (
     <div className="">
       <div className="flex items-center pb-4">
         <Input
           type="search"
-          placeholder="Search..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
+          placeholder="Search by name or username..."
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
           className="text-xl h-13"
         />
       </div>
       <ScrollArea className="h-[calc(100vh-11rem)]  w-full rounded-md ">
         <Table>
           <TableBody className=" grid   gap-3 py-1 [&_tr:last-child]:border-1">
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className=" rounded-md block "
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell className=" flex flex-row" key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
+            {chats.map((Chat) => (
+              <motion.div
+              initial={{ opacity: 0 , }}
+              whileInView={{  opacity: 1,  }}
+              
+              >
+              <TableRow  className=" rounded-md block ">
+                  <TableCell className=" flex p-0 flex-row">
+                    <Link
+                      to={`/chat/${Chat.chatName}/${Chat._id}`}
+                      className="flex w-full items-center gap-4 cursor-pointer p-4"
+                    >
+                      <div className="flex items-center h-full">
+                        {Chat.avatar.map((avatar, index) => (
+                          <div
+                            key={index}
+                            className="relative"
+                            style={{
+                              marginLeft: index > 0 ? "-0.75rem" : "0",
+                              zIndex: Chat.avatar.length - index,
+                            }}
+                          >
+                            <Avatar className="h-9 w-9 border-2 border-white">
+                              <AvatarImage
+                                src={avatar}
+                                alt={`Avatar ${index + 1}`}
+                              />
+                              <AvatarFallback>
+                                {Chat.chatName[index]?.charAt(0) || "?"}
+                              </AvatarFallback>
+                            </Avatar>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="grid gap-1">
+                        <p className="text-sm font-medium leading-none">
+                          {Chat.chatName}
+                        </p>
+                        {Chat.noOfMessages > 0 && (
+                          <p className="text-sm text-muted-foreground">
+                            {Chat.noOfMessages} New Messages
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  </TableCell>
               </TableRow>
-            )}
+              </motion.div>
+            ))}
           </TableBody>
         </Table>
       </ScrollArea>

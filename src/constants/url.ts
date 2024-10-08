@@ -19,12 +19,13 @@ export default {
     addMemeberInGroup: "chat/group/member/add",
     removeMemberInGroup: "chat/group/member/remove",
     renameGroup: "chat/group/rename",
+    changeAvatarOfGroup: "chat/group/avatar",
 
     // chat
     allChats: "chat/all",
     friends: "chat/friends",
 
     attachment : "chat/attachment",
-    chatAllMessage: "chat/messages/",
+    chatOldMessage: "chat/messages/",
     chatDetails: "chat/details/",
 }

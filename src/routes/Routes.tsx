@@ -1,6 +1,7 @@
 import Protected from "@/components/auth/Protected";
-import Chat, { Defult } from "@/components/Right/Right";
+import Chat, { Defult } from "@/components/Home/Right/Right";
 import { SocketProvider } from "@/hooks/socket";
+import { WebRTCprovider } from "@/hooks/webRTC";
 import { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
@@ -14,28 +15,32 @@ const GroupDetails = lazy(
   () => import("@/components/settingPage/GroupDetails")
 );
 const SignupPage = lazy(() => import("../pages/SignupPage"));
+const CallPage = lazy(() => import("../pages/CallPage"));
 const SettingPage = lazy(() => import("../pages/SettingPage"));
 const CreateGroup = lazy(() => import("../components/settingPage/CreateGroup"));
 const ManageGroup = lazy(() => import("../components/settingPage/ManageGroup"));
 // import SigninPage from "../pages/SigninPage";
 const General = lazy(() => import("../components/settingPage/General"));
 export default function Routes() {
-  
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: <App />,
+      element: (
+        <SocketProvider>
+          <WebRTCprovider>
+            <App />
+          </WebRTCprovider>
+        </SocketProvider>
+      ),
       children: [
         {
           path: "/",
           element: (
             <Protected authentication={true}>
               <>
-                <SocketProvider>
-                  <Homepage>
-                    <Defult />
-                  </Homepage>
-                </SocketProvider>
+                <Homepage>
+                  <Defult />
+                </Homepage>
               </>
             </Protected>
           ),
@@ -64,11 +69,9 @@ export default function Routes() {
           path: "/settings",
           element: (
             <Protected authentication={true}>
-              <SocketProvider>
-                <Suspense fallback={<div>Loading...</div>}>
-                  <SettingPage />
-                </Suspense>
-              </SocketProvider>
+              <Suspense fallback={<div>Loading...</div>}>
+                <SettingPage />
+              </Suspense>
             </Protected>
           ),
           children: [
@@ -113,12 +116,21 @@ export default function Routes() {
           element: (
             <Protected authentication={true}>
               <>
-                <SocketProvider>
-                  <Homepage>
-                    <Chat />
-                  </Homepage>
-                </SocketProvider>
+                <Homepage>
+                  <Chat />
+                </Homepage>
               </>
+            </Protected>
+          ),
+        },
+        {
+          path: "/call/:name/:id",
+
+          element: (
+            <Protected authentication={true}>
+              <Suspense fallback={<div>Loading...</div>}>
+                <CallPage />
+              </Suspense>
             </Protected>
           ),
         },

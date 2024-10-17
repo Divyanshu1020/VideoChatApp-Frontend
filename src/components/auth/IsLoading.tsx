@@ -1,8 +1,8 @@
 import { RootState } from "@/redux/store";
 import { BellDot, Menu, MessageCircle, UserPlus } from "lucide-react";
 import { useSelector } from "react-redux";
-import { Skeleton } from "../aside/FriendList";
-import { Defult } from "../Right/Right";
+import { Skeleton } from "../Home/aside/FriendList";
+import { Defult } from "../Home/Right/Right";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 

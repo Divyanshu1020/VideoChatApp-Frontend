@@ -1,4 +1,5 @@
-import { Chat } from "@/components/aside/FriendList";
+
+import { Chat } from "@/components/Home/aside/FriendList";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ChatSlice {

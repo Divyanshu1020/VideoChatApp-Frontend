@@ -6,15 +6,18 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { ScrollArea } from "../ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Chat } from "./FriendList";
 
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { setForMobile } from "@/redux/reducers/auth";
 
 export function DataTable({ data }: { data: Chat[] }) {
   const [chats, setChats] = useState(data);
   const [searchInput, setSearchInput] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -52,7 +55,7 @@ export function DataTable({ data }: { data: Chat[] }) {
               whileInView={{  opacity: 1,  }}
               
               >
-              <TableRow  className=" rounded-md block ">
+              <TableRow onClick={() => dispatch(setForMobile(true))}  className=" rounded-md block ">
                   <TableCell className=" flex p-0 flex-row">
                     <Link
                       to={`/chat/${Chat.chatName}/${Chat._id}`}

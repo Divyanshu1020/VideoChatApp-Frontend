@@ -25,6 +25,7 @@ export default function Center({ chatDetails }: { chatDetails: ChatDetails }) {
   const [avatars] = useState<ChatDetailsMembers[]>(chatDetails?.members);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const last9Ref = useRef<HTMLDivElement>(null);
 
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -40,12 +41,15 @@ export default function Center({ chatDetails }: { chatDetails: ChatDetails }) {
       if (response?.data?.data) {
         setMessages((prevMessages) => [...response.data.data, ...prevMessages]);
       }
+      
       setIsLoadingMore(false);
       if (page === 1) {
         setTimeout(
           () => bottomRef.current?.scrollIntoView({ behavior: "auto" }),
           0
         );
+      }else{
+        last9Ref.current?.scrollIntoView({ behavior: "auto" });
       }
     }
 
@@ -102,7 +106,11 @@ export default function Center({ chatDetails }: { chatDetails: ChatDetails }) {
     };
 
     if (index === 0) {
-      return <MessageCard ref={lastChatElementRef} {...props} />;
+      return <MessageCard  ref={lastChatElementRef} {...props} />;
+    }
+
+    if(index === 9) {
+      return <MessageCard ref={last9Ref} {...props} />
     }
     return <MessageCard {...props} />;
   };
@@ -112,12 +120,12 @@ export default function Center({ chatDetails }: { chatDetails: ChatDetails }) {
       <ScrollArea
         // onScroll={handleScroll}
 
-        className="h-[calc(100vh-18rem)] px-6"
+        className="h-[calc(100vh-18rem)] flex flex-col items-center px-6"
         // onScrollCapture={handleScroll}
         ref={scrollAreaRef}
       >
         {isLoadingMore && <div>Loading more messages...</div>}
-        <div className="flex flex-col mt-4 gap-4">
+        <div className="flex flex-col  mt-4 gap-4">
           {messages.map(renderMessage)}
         </div>
         <div ref={bottomRef} />

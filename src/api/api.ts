@@ -1,7 +1,6 @@
 import axios from "./axios.config";
 import Url from "../constants/url";
 import { AxiosError } from "axios";
-import { toast } from "@/hooks/use-toast";
 
 // Utility to handle Axios errors and return meaningful messages
 const handleAxiosError = (error: unknown): string => {
@@ -10,12 +9,6 @@ const handleAxiosError = (error: unknown): string => {
 
 
     if (error.response?.status === 401) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      })
-      console.error("Axios Error:", error.message);
       return backendMessage || "User not authenticated";
     }
 

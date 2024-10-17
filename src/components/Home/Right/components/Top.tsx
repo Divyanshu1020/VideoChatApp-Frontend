@@ -6,21 +6,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { ArrowLeftIcon, Info, PhoneCall, Video } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function Top({bio}: {bio: string}) {
+export default function Top({ bio }: { bio: string }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const chats = useSelector((state: RootState) => state.chats.chats);
-  const dispatch = useDispatch();;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const chat = chats.find((chat) => chat._id === id);
     if (chat) {
-      if(!chat.isGroupChat){
+      if (!chat.isGroupChat) {
         setAvatar(chat.avatar[0]);
-      }else{
+      } else {
         setAvatar(chat.groupDP.url);
       }
       setName(chat.chatName);
@@ -49,14 +50,18 @@ export default function Top({bio}: {bio: string}) {
         </Button>
         <div className=" flex flex-col ">
           <span className="font-bold 2xl">{name}</span>
-          <p className="text-sm text-slate-500 ">
-            {bio}
-          </p>
+          <p className="text-sm text-slate-500 ">{bio}</p>
         </div>
       </div>
       <div className=" flex flex-row gap-5">
-        <PhoneCall />
-        <Video />
+        <PhoneCall
+          className="cursor-pointer hover:text-primary"
+          onClick={() => navigate(`/call/${name}/${id}?type=audio`)}
+        />
+        <Video
+          className="cursor-pointer hover:text-primary"
+          onClick={() => navigate(`/call/${name}/${id}?type=video`)}
+        />
         <Info />
       </div>
     </div>

@@ -1,6 +1,5 @@
 import env from "@/constants/env";
 import { setNotification } from "@/redux/reducers/auth";
-import { RootState } from "@/redux/store";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import {
   createContext,
@@ -10,7 +9,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import io, { Socket } from "socket.io-client";
 import { toast } from "./use-toast";
 

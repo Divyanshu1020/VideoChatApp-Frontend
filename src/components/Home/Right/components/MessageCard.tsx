@@ -52,7 +52,7 @@ export const FriendMessageCard = forwardRef<
   { data: Message; avatar: string | undefined }
 >(({ data, avatar }, ref) => (
   <motion.div
-    initial={{ x: "-90%", opacity: 0 }}
+    initial={{ x: "-40%", opacity: 0 }}
     whileInView={{ x: 0, opacity: 1 }}
     transition={{
       type: "spring",
@@ -60,9 +60,10 @@ export const FriendMessageCard = forwardRef<
       damping: 14,
       mass: 1,
     }}
-    ref={ref}
+    key={data._id}
+    className="  self-start flex flex-col w-full max-w-[55%]"
   >
-    <Card className="flex flex-col w-full max-w-[55%]">
+    <Card ref={ref} className=" ">
       <CardHeader className="p-4">
         <CardTitle className="flex flex-row justify-between items-center">
           <div className="flex items-center gap-4">
@@ -109,10 +110,10 @@ export const UserMessageCard = forwardRef<
       damping: 14,
       mass: 1,
     }}
-    ref={ref}
+    key={data._id}
     className="self-end  flex flex-col w-full max-w-[55%]"
   >
-    <Card className="bg-primary">
+    <Card ref={ref} className="bg-primary">
       <CardHeader className="p-4">
         <CardTitle className="flex flex-row justify-between items-center">
           <EllipsisVerticalIcon className="cursor-pointer" />

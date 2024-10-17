@@ -1,7 +1,7 @@
 import { Skeleton as Skl } from "@/components/ui/skeleton";
 import { useLazyGetChatsQuery } from "@/redux/api/api";
-import { Card } from "../ui/card";
-import { Table, TableBody, TableCell, TableRow } from "../ui/table";
+import { Card } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import { setChats } from "@/redux/reducers/chats";
 import { RootState } from "@/redux/store";

@@ -1,4 +1,5 @@
-import FriendList from "@/components/aside/FriendList";
+
+import FriendList from "@/components/Home/aside/FriendList";
 import AppLayout from "@/components/layout/AppLayout";
 import { useSocket } from "@/hooks/socket";
 import { toast } from "@/hooks/use-toast";
@@ -37,7 +38,6 @@ function Page({children}: {children: React.ReactNode}) {
   const isChatISOpen = useSelector((state: RootState) => state.chats.isChatISOpen);
   useEffect(() => {
     if (socket && isChatISOpen) {
-    
       socket.on("NEW_MESSAGE", (data) => {
         dispatch(plusNoOfNewMessage(data.chatId))
         toast({

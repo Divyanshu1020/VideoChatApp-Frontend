@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Bottom from "./components/Bottom";
+
 import Center, { CenterSkl } from "./components/Center";
 import Top, { TopSkl } from "./components/Top";
 import { useLazyGetChatDetailsQuery } from "@/redux/api/api";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { isChatISOpen, newMessageZero } from "@/redux/reducers/chats";
+import Bottom from "./components/Bottom";
 export default function Chat() {
   const { id} = useParams()
   const dispatch = useDispatch();

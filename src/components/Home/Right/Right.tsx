@@ -8,11 +8,15 @@ import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { isChatISOpen, newMessageZero } from "@/redux/reducers/chats";
 import Bottom from "./components/Bottom";
+import { ChatDetails } from "@/types/Request";
+
+
 export default function Chat() {
   const { id} = useParams()
   const dispatch = useDispatch();
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [bio, setBio] = useState('')
   // const {isLoading, data} = useGetChatDetailsQuery({chatId: id as string, populate:"true"}, {skip: !id})
   const [getChatDetails,] = useLazyGetChatDetailsQuery()
   const formobile = useSelector((state : RootState) => state.auth.forMobile)
@@ -23,7 +27,8 @@ export default function Chat() {
     const getChatDetailsFun = async ()=>{
       try {
         const res = await getChatDetails({chatId: id as string, populate:"true"})
-        setData(res.data)
+        setData(res.data.data)
+        setBio(res.data.data.bio)
         dispatch(newMessageZero(id as string))
       } catch (error) {
         console.warn("error", error);
@@ -45,9 +50,9 @@ export default function Chat() {
 
   return !isLoading? (
     <div className={` ${!formobile ? "hidden" : "" } sm:flex  relative  min-h-[50vh] flex-col rounded-xl bg-muted/50  `}>
-      <Top bio={data?.data.bio}/>
-      <Center chatDetails={data?.data} />
-      <Bottom data={data?.data} islooding={isLoading}/>
+      <Top bio={bio} />
+      <Center chatDetails={data as unknown as ChatDetails} />
+      <Bottom data={data} islooding={isLoading}/>
     </div>
   ):(
     <div className="  hidden sm:flex  relative   min-h-[50vh] flex-col rounded-xl bg-muted/50  ">

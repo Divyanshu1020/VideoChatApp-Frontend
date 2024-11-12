@@ -25,7 +25,6 @@ import { Camera } from "lucide-react";
 import { useState } from "react";
 import {
   FieldValues,
-  SubmitHandler,
   useForm,
   UseFormReturn,
 } from "react-hook-form";
@@ -70,7 +69,7 @@ export default function CreateGroup() {
         setBtn("Group created successfully");
       } else {
         toast({
-          title: res?.error.data.errors[0],
+          title: "Error",
           variant: "default",
         });
         setBtn("Create a new group chat");
@@ -175,10 +174,13 @@ function PersonalInformation({
 
   const imageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    const selected = URL.createObjectURL(file);
-    if (selected) {
-      form.setValue("image", file);
-      setImage(selected);
+  
+    if (file) { // Check if file is not undefined
+      const selected = URL.createObjectURL(file);
+      if (selected) {
+        form.setValue("image", file);
+        setImage(selected);
+      }
     }
   };
   return (

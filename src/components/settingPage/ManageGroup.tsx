@@ -43,7 +43,7 @@ export default function ManageGroup() {
 
 function YourGroup() {
   const [myGroups, setMyGroups] = useState([])
-  const [getMyGroups,{isLoading}] = useLazyGetMyGroupsQuery()
+  const [getMyGroups] = useLazyGetMyGroupsQuery()
   const navigate = useNavigate()
 
   useEffect(() => {

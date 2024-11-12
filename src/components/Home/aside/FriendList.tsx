@@ -80,41 +80,41 @@ export default function FriendList() {
    }, [socket]);
 
 
-  const test = [
-    {
-      _id: "66d601eebe8a15653acb5239",
-      chatName: "RAM",
-      isGroupChat: true,
-      members: ["66d5facd181a042918f16e5b", "66d5facd181a042918f16e60"],
-      avatar: [
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg",
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/602.jpg",
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/860.jpg",
-      ],
-    },
-    {
-      _id: "66ddeca0ebc860cac4c484f1",
-      chatName: "PhD",
-      isGroupChat: true,
-      members: [
-        "66d5facd181a042918f16e5b",
-        "66d5facd181a042918f16e61",
-        "66d5facd181a042918f16e61",
-      ],
-      avatar: [
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg",
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/602.jpg",
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/375.jpg",
-      ],
-    },
-    {
-      _id: "66ec7e7aeefce62419a64d3d",
-      chatName: "Elsie Aufderhar",
-      isGroupChat: false,
-      members: ["66d5facd181a042918f16e5a"],
-      avatar: ["https://avatars.githubusercontent.com/u/48565828"],
-    },
-  ];
+  // const test = [
+  //   {
+  //     _id: "66d601eebe8a15653acb5239",
+  //     chatName: "RAM",
+  //     isGroupChat: true,
+  //     members: ["66d5facd181a042918f16e5b", "66d5facd181a042918f16e60"],
+  //     avatar: [
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg",
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/602.jpg",
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/860.jpg",
+  //     ],
+  //   },
+  //   {
+  //     _id: "66ddeca0ebc860cac4c484f1",
+  //     chatName: "PhD",
+  //     isGroupChat: true,
+  //     members: [
+  //       "66d5facd181a042918f16e5b",
+  //       "66d5facd181a042918f16e61",
+  //       "66d5facd181a042918f16e61",
+  //     ],
+  //     avatar: [
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg",
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/602.jpg",
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/375.jpg",
+  //     ],
+  //   },
+  //   {
+  //     _id: "66ec7e7aeefce62419a64d3d",
+  //     chatName: "Elsie Aufderhar",
+  //     isGroupChat: false,
+  //     members: ["66d5facd181a042918f16e5a"],
+  //     avatar: ["https://avatars.githubusercontent.com/u/48565828"],
+  //   },
+  // ];
   return (
     <Card
       className={`${

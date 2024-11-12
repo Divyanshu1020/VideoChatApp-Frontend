@@ -292,7 +292,7 @@ function FriendProfile({
         });
       } else {
         toast({
-          title: res?.error?.data?.message,
+          // title: res?.error?.data?.message,
           variant: "default",
         });
       }

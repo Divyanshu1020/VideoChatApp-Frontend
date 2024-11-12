@@ -3,10 +3,10 @@ import { useSocket } from "./socket";
 import peer from "@/lib/peer";
 import { useNavigate } from "react-router-dom";
 interface WebRTCcontextType {
-    myStream: MediaStream | null
-    setMyStream: React.Dispatch<React.SetStateAction<MediaStream | null>>
-    remoteStream: MediaStream | null
-    setRemoteStream: React.Dispatch<React.SetStateAction<MediaStream | null>>
+    myStream: MediaStream
+    setMyStream: React.Dispatch<React.SetStateAction<MediaStream>>
+    remoteStream: MediaStream
+    setRemoteStream: React.Dispatch<React.SetStateAction<MediaStream>>
     videoON: boolean
     audioON: boolean
     setVideoON: React.Dispatch<React.SetStateAction<boolean>>
@@ -48,9 +48,9 @@ const WebRTCprovider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const [offer, setOffer] = useState< RTCSessionDescriptionInit | undefined>(undefined);
   const [messages, setMessages] = useState("Calling...");
-  const [myStream, setMyStream] = useState<MediaStream | null>(null);
+  const [myStream, setMyStream] = useState<MediaStream | null>();
   console.log("setmyStream", myStream);
-  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>();
   const [videoON, setVideoON] = useState(true);
   const [audioON, setAudioON] = useState(true);
   const [incomingCall, setIncomingCall] = useState(false);
@@ -78,13 +78,39 @@ const WebRTCprovider = ({ children }: { children: React.ReactNode }) => {
   const callAccept = useCallback(async() => {
     setShow(false);
     navigate(`/call/${incomingCallUser?.name}/${incomingCallUser?._id}`);
+    getMySream();
     console.log("callAccept", incomingCallUser?._id);
-    const ans = await peer.getAnsweer(offer);
+    const ans = await peer.getAnsweer(offer!);
     socket?.emit("ACCEPT", {to: incomingCallUser?._id, ans});
 
 
   },[incomingCallUser?._id, offer, socket])
 
+  const sendStreams = useCallback(async () => {
+    if (!myStream) {
+
+      // If myStream is not ready, fetch it
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      })
+
+      setMyStream(stream)
+
+      for (const track of stream.getTracks()) {
+        peer.peer?.addTrack(track, stream);
+      }
+    }
+  
+    console.log("myStream", myStream);
+    if (myStream) {
+      for (const track of myStream.getTracks()) {
+        peer.peer?.addTrack(track, myStream);
+      }
+    } else {
+      console.error("myStream is still null, unable to send tracks.");
+    }
+  }, [myStream]);
 
 
 
@@ -112,19 +138,18 @@ const WebRTCprovider = ({ children }: { children: React.ReactNode }) => {
         peer.setLocalDescription(ans)
         setShow(false);
         setIncomingCall(false);
+        await sendStreams()
 
-        console.log("myStream", myStream);
+        // const stream = await navigator.mediaDevices.getUserMedia({
+        //   video: true,
+        //   audio: false,
+        // })
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: false,
-        })
+        // console.log("stream", stream);
 
-        console.log("stream", stream);
-
-        for(const track of stream.getTracks()) {
-          peer.peer?.addTrack(track, stream)
-        }
+        // for(const track of stream.getTracks()) {
+        //   peer.peer?.addTrack(track, stream)
+        // }
 
 
       })
@@ -168,21 +193,22 @@ const WebRTCprovider = ({ children }: { children: React.ReactNode }) => {
     }
   },[])
 
+
+
+  const handleNegoNeeded = useCallback(async() => {
+    console.log("negotiationneeded");
+    const offer = await peer.getOffer();
+    console.log("negotiationneeded offer", offer);
+    socket?.emit("NEGO_NEEDED", ({offer, to: incomingCallUser?._id}))
+  },[incomingCallUser?._id, socket])
+
   useEffect(() => {
-    peer.peer?.addEventListener("negotiationneeded", async () => {
-      console.log("negotiationneeded");
-      const offer = await peer.getOffer();
-      console.log("negotiationneeded offer", offer);
-      socket?.emit("NEGO_NEEDED", ({offer, to: incomingCallUser?._id}))
-    })
+    peer.peer?.addEventListener("negotiationneeded",handleNegoNeeded)
 
     return () => {
-      peer.peer?.removeEventListener("negotiationneeded", async () => {
-        const offer = await peer.getOffer();
-        socket?.emit("NEGO_NEEDED", ({offer, to: incomingCallUser?._id}))
-      })
+      peer.peer?.removeEventListener("negotiationneeded",handleNegoNeeded)
     }
-  },[socket])
+  },[handleNegoNeeded])
 
   const getMySream = async () => {
     try {
@@ -229,7 +255,7 @@ const WebRTCprovider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <WebRTCcontext.Provider value={value}>{children}</WebRTCcontext.Provider>
+    <WebRTCcontext.Provider value={value as WebRTCcontextType}>{children}</WebRTCcontext.Provider>
   );
 };
 

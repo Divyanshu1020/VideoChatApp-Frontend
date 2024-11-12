@@ -17,7 +17,6 @@ import Part2 from "./components/GroupDetails/Part/Part2";
 import Part3 from "./components/GroupDetails/Part/Part3";
 import { useAddNewMemebersInGroupMutation, useChangeAvatarOfGroupMutation, useChangeGroupNameMutation, useRemoveMemebersInGroupMutation } from "@/redux/api/api";
 import { toast } from "@/hooks/use-toast";
-import { set } from "react-hook-form";
 
 export default function GroupDetailsPage() {
   return (
@@ -44,7 +43,7 @@ function GroupDetails() {
   const [changeAvatarOfGroup] = useChangeAvatarOfGroupMutation()
   const {id} =useParams()
 
-  const onSubmit = async(data) => {
+  const onSubmit = async(data:any) => {
     setDisabledPart1(true);
     setDisabledPart2(true);
     setIsLoading(true);
@@ -57,7 +56,7 @@ function GroupDetails() {
           if(res.error){
             toast({
               title: "Error",
-              description: res.error.data.message,
+              // description: res.error.data.message,
               variant: "destructive",
             })
           }
@@ -77,7 +76,7 @@ function GroupDetails() {
           if(res.error){
             toast({
               title: "Error",
-              description: res.error.data.message,
+              // description: res.error.data.message,
               variant: "destructive",
             })
           }else {
@@ -100,7 +99,7 @@ function GroupDetails() {
           if(res.error){
             toast({
               title: "Error",
-              description: res.error.data.message,
+              // description: res.error.data.message,
               variant: "destructive",
             })
           }else {
@@ -122,7 +121,7 @@ function GroupDetails() {
           if(res.error){
             toast({
               title: "Error",
-              description: res.error.data.message,
+              // description: res.error.data.message,
               variant: "destructive",
             })
           }else {

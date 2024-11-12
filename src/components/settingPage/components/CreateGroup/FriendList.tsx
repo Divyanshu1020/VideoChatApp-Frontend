@@ -2,9 +2,9 @@ import { Card } from "@/components/ui/card";
 
 import { DataTable } from "./DataTable";
 
-import { Skeleton } from "@/components/aside/FriendList";
 import { useGetMyFriendsMutation } from "@/redux/api/api";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/Home/aside/FriendList";
 
 export interface Friend {
   _id: string;
@@ -41,68 +41,68 @@ export default function FriendList() {
 
     getFriend();
   }, [getMyFriends]);
-  const test = [
-    {
-      _id: "66d5facd181a042918f16e5a",
-      name: "Elsie Aufderhar",
-      userName: "Eliza_Turner20",
-      avatar: "https://avatars.githubusercontent.com/u/48565828",
-      status: false,
-    },
-    {
-      _id: "66d5facd181a042918f16e5d",
-      name: "Dr. Kelley Swift",
-      userName: "Stacy29",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
-      status: true,
-    },
-    {
-      _id: "66d5facd181a04dg918f16e5a",
-      name: "Elsie Aufderhar",
-      userName: "Eliza_Turner20",
-      avatar: "https://avatars.githubusercontent.com/u/48565828",
-      status: false,
-    },
-    {
-      _id: "66d5fdgcd181a042918f16e5d",
-      name: "Dr. Kelley Swift",
-      userName: "Stacy29",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
-      status: true,
-    },
-    {
-      _id: "66d5facd18sf1a042918f16e5a",
-      name: "Elsie Aufderhar",
-      userName: "Eliza_Turner20",
-      avatar: "https://avatars.githubusercontent.com/u/48565828",
-      status: false,
-    },
-    {
-      _id: "66d5facd181a0vz42918f16e5d",
-      name: "Dr. Kelley Swift",
-      userName: "Stacy29",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
-      status: true,
-    },
-    {
-      _id: "66d5faFcd181a042918f16e5a",
-      name: "Elsie Aufderhar",
-      userName: "Eliza_Turner20",
-      avatar: "https://avatars.githubusercontent.com/u/48565828",
-      status: false,
-    },
-    {
-      _id: "66d5facd181a042fs918f16e5d",
-      name: "Dr. Kelley Swift",
-      userName: "Stacy29",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
-      status: true,
-    },
-  ];
+  // const test = [
+  //   {
+  //     _id: "66d5facd181a042918f16e5a",
+  //     name: "Elsie Aufderhar",
+  //     userName: "Eliza_Turner20",
+  //     avatar: "https://avatars.githubusercontent.com/u/48565828",
+  //     status: false,
+  //   },
+  //   {
+  //     _id: "66d5facd181a042918f16e5d",
+  //     name: "Dr. Kelley Swift",
+  //     userName: "Stacy29",
+  //     avatar:
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
+  //     status: true,
+  //   },
+  //   {
+  //     _id: "66d5facd181a04dg918f16e5a",
+  //     name: "Elsie Aufderhar",
+  //     userName: "Eliza_Turner20",
+  //     avatar: "https://avatars.githubusercontent.com/u/48565828",
+  //     status: false,
+  //   },
+  //   {
+  //     _id: "66d5fdgcd181a042918f16e5d",
+  //     name: "Dr. Kelley Swift",
+  //     userName: "Stacy29",
+  //     avatar:
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
+  //     status: true,
+  //   },
+  //   {
+  //     _id: "66d5facd18sf1a042918f16e5a",
+  //     name: "Elsie Aufderhar",
+  //     userName: "Eliza_Turner20",
+  //     avatar: "https://avatars.githubusercontent.com/u/48565828",
+  //     status: false,
+  //   },
+  //   {
+  //     _id: "66d5facd181a0vz42918f16e5d",
+  //     name: "Dr. Kelley Swift",
+  //     userName: "Stacy29",
+  //     avatar:
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
+  //     status: true,
+  //   },
+  //   {
+  //     _id: "66d5faFcd181a042918f16e5a",
+  //     name: "Elsie Aufderhar",
+  //     userName: "Eliza_Turner20",
+  //     avatar: "https://avatars.githubusercontent.com/u/48565828",
+  //     status: false,
+  //   },
+  //   {
+  //     _id: "66d5facd181a042fs918f16e5d",
+  //     name: "Dr. Kelley Swift",
+  //     userName: "Stacy29",
+  //     avatar:
+  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/337.jpg",
+  //     status: true,
+  //   },
+  // ];
   return (
     <Card
       className={`mt-3 relative flex-col items-start gap-8 flex overflow-auto`}

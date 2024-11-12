@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSocket } from "@/hooks/socket";
 import { toast } from "@/hooks/use-toast";
-import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, SetStateAction, useRef, useState } from "react";
 import { useSendAttchmentMutation } from "@/redux/api/api";
 
 interface Data {
@@ -69,7 +69,7 @@ export default function Bottom({
         console.log("res");
       } else {
         toast({
-          title: res?.error?.data?.message || "daa",
+          title: "Something went wrong",
           variant: "default",
         });
       }
@@ -195,7 +195,7 @@ export default function Bottom({
 function SendFiles({
   setFileToShow,
 }: {
-  setFileToShow: (file: File[]) => void;
+  setFileToShow: (value: SetStateAction<[] | File[]>) => void;
 }) {
   const fileChaneHandeler = (
     e: ChangeEvent<HTMLInputElement>,
@@ -212,7 +212,7 @@ function SendFiles({
       });
     }
 
-    setFileToShow((prev: File[]) => {
+    setFileToShow((prev : File[]) => {
       const newFile = [...prev, ...files];
 
       if (newFile.length > 5) {

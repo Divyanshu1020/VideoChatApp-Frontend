@@ -25,7 +25,7 @@ export default function Container() {
     setIncomingCall,
   } = useWebRTC();
   const { socket } = useSocket();
-  const parentRef = useRef(null);
+  const parentRef = useRef<HTMLDivElement | null>(null);
   const [bounds, setBounds] = useState({
     left: 0,
     top: 0,
@@ -36,8 +36,8 @@ export default function Container() {
   useEffect(() => {
     const handleResize = () => {
       if (parentRef.current) {
-        const parentHeight = parentRef.current.clientHeight;
-        const parentWidth = parentRef.current.clientWidth;
+        const parentHeight = (parentRef.current as HTMLElement).clientHeight;
+        const parentWidth = (parentRef.current as HTMLElement).clientWidth;
         setBounds({
           left: 10,
           top: 10,
@@ -71,14 +71,14 @@ export default function Container() {
           offer,
         });
       }
-
+      getMySream();
       setShow(false);
       setIncomingCall(true);
     };
     
-    if (videoON) {
-      getMySream();
-    }
+    // if (videoON) {
+    //   getMySream();
+    // }
 
     if(!incomingCall){
       handleCall();
@@ -115,7 +115,7 @@ export default function Container() {
               muted
               width="100%"
               height={"100%"}
-              url={myStream}
+              url={myStream as MediaStream}
             />
           </Card>
         </Draggable>

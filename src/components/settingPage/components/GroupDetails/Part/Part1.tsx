@@ -49,25 +49,27 @@ function PersonalInformation() {
   const [image, setImage] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-  const [getChatDetails, { error }] = useLazyGetChatDetailsQuery();
+  const [getChatDetails] = useLazyGetChatDetailsQuery();
   const [data, setData] = useState<ChatDetails>();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [ setIsLoading] = useState(true);
 
   const { form, disablePart1, setGroupName, setGroupMembers  } = useGroupDetails();
 
   const imageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
-    const selected = URL.createObjectURL(file);
-    if (selected) {
-      form.setValue("image", file);
-      setImage(selected);
+  
+    if (file) {
+      const selected = URL.createObjectURL(file);
+      if (selected) {
+        form.setValue("image", file);
+        setImage(selected);
+      }
     }
-  };
+  }
 
   useEffect(() => {
     // todo add loading and try catch
-    setIsLoading(true);
+    // setIsLoading(true);
     const getChatDetailsFun = async () => {
       try {
         const res = await getChatDetails({
@@ -83,7 +85,7 @@ function PersonalInformation() {
         } else {
           toast({
             title: "Error",
-            description: res.error?.data?.message,
+            // description: res.error?.data?.message,
             variant: "destructive",
           });
           // console.log("error getChatDetails", error);
@@ -99,7 +101,7 @@ function PersonalInformation() {
           navigate("/settings/manage-groups");
         }, 1000);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 
@@ -124,7 +126,7 @@ function PersonalInformation() {
           />
         </div>
         <div className=" border-b"></div>
-        <Members members={data?.members} />
+        <Members members={data?.members as ChatDetailsMembers[]} />
       </div>
 
       <div dir="image" className="   ">

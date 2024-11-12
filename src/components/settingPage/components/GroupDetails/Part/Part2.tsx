@@ -1,5 +1,3 @@
-import { UserInterface } from "@/components/Navbar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +14,7 @@ import { useGetMyFriendsMutation } from "@/redux/api/api";
 import { useEffect, useState } from "react";
 import { Friend } from "../../CreateGroup/FriendList";
 import { useGroupDetails } from "../ContextApi/groupDeatailsContextApi";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Part2() {
   const { disablePart2, setDisabledPart2 } = useGroupDetails();
 
